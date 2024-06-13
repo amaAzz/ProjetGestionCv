@@ -1,0 +1,171 @@
+<div>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 class="text-xl">Members</h2>
+        <div class="flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
+            <div class="flex gap-3">
+                <div>
+                    <button type="button" class="btn bg-lime-800 hover:bg-lime-700 text-white" (click)="editUser()">
+                        <icon-user-plus class="ltr:mr-2 rtl:ml-2" />
+                        Add Memeber
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn p-2 bg-lime-800 border-lime-800"
+                        [ngClass]="{ 'bg-lime-800 text-white': displayType === 'list' }"
+                        (click)="displayType = 'list'">
+                        <icon-list-check />
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn p-2 bg-lime-800 border-lime-800"
+                        [ngClass]="{ 'bg-lime-800 text-white': displayType === 'grid' }"
+                        (click)="displayType = 'grid'">
+                        <icon-layout-grid />
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative">
+                <input type="text" placeholder="Search Members" class="peer form-input py-2 ltr:pr-11 rtl:pl-11"
+                    [(ngModel)]="searchUser" name="searchUser" (ngModelChange)="searchContacts()" />
+                <div class="absolute top-1/2 -translate-y-1/2 peer-focus:text-primary ltr:right-[11px] rtl:left-[11px]">
+                    <icon-search class="mx-auto" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel mt-5 overflow-hidden border-0 p-0">
+        <ng-container *ngIf="displayType === 'list'">
+            <div class="table-responsive">
+                <table class="table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th class="!text-center">Remove Member</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let member of filteredMembersList" key="member.id">
+                            <tr>
+                                <td>
+                                    <div class="flex w-max items-center">
+                                        <!-- <div *ngIf="member.path" class="w-max">
+                                            <img [src]="'/assets/images/' + member.path"
+                                                class="h-8 w-8 rounded-full object-cover ltr:mr-2 rtl:ml-2"
+                                                alt="avatar" />
+                                        </div> -->
+                                        <div *ngIf=" member.firstName && member.lastName"
+                                            class="grid h-8 w-8 place-content-center rounded-full bg-lime-700 xt-sm font-semibold text-white ltr:mr-2 rtl:ml-2">
+                                            {{ member.firstName.charAt(0) + '' + member.lastName.charAt(0) }}
+                                        </div>
+                                        <div *ngIf=" member.firstName && member.lastName"
+                                            class="grid h-8 w-8 place-content-center rounded-full border border-gray-300 ltr:mr-2 rtl:ml-2 dark:border-gray-800">
+                                            <icon-user class="h-4.5 w-4.5" />
+                                        </div>
+                                        <div>{{ member.firstName +" "+member.lastName }}</div>
+                                    </div>
+                                </td>
+                                <td>{{ member.email }}</td>
+                                <td class="whitespace-nowrap">{{ member.role }}</td>
+                                <td>
+                                    <div class="flex items-center justify-center gap-4">
+                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                            (click)="deleteMemberConfirm(member)">Remove</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+    </div>
+    <ng-container *ngIf="displayType === 'grid'">
+        <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            <ng-container *ngFor="let member of filteredMembersList" key="member.id">
+                <!-- <div class="relative overflow-hidden rounded-md bg-white text-center shadow dark:bg-[#1c232f]"> -->
+                <!-- <div class="relative overflow-hidden px-6 pb-2">
+                        <ng-container *ngIf="member.path">
+                            <img class="mx-auto max-h-40 w-4/5 object-contain" [src]="'/assets/images/' + member.path" />
+                        </ng-container>
+                        <div class="rounded-md bg-white px-2 py-4 shadow-md dark:bg-gray-900">
+                            <div class="text-xl">{{ member.name }}</div>
+                            <div class="text-white-dark">{{ member.email }}</div>
+                        </div>
+                    </div> -->
+                <!-- </div> -->
+                <div
+                    class="max-w-[30rem] w-full bg-white shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                    <div class="p-3 flex items-center flex-col sm:flex-row">
+                        <!-- avatar  -->
+                        <!-- <ng-container *ngIf="!member.path">
+                            <div class="mb-5 w-20 h-20 rounded-full overflow-hidden">
+                                <img [src]="'/assets/images/' + member.path" alt="image"
+                                class="w-full h-full object-cover" />
+                            </div>
+                        </ng-container> -->
+                        <!-- <ng-container *ngIf="member.path"> -->
+                            <div *ngIf="member.firstName && member.lastName"
+                                class="grid w-14 h-14 place-content-center rounded-full bg-lime-700 text-xl font-semibold text-white ltr:mr-2 rtl:ml-2">
+                                {{ member.firstName.charAt(0) + '' + member.lastName.charAt(0) }}
+                            </div>
+                        <!-- </ng-container> -->
+
+                        <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                            <h5 class="text-[#3b3f5c] text-[15px] font-semibold mb-2 dark:text-white-light">
+                                {{ member.firstName +" "+member.lastName }} </h5>
+                            <p class="mb-2 text-white-dark">{{ member.email }}</p>
+                            <span class="uppercase underline text-blue-800 p-1 rounded ">{{ member.role }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <!-- add contact modal -->
+    <modal #addContactModal class="no-footer">
+        <ng-template #modalHeader>
+            <div class="!font-medium">Invite Member</div>
+        </ng-template>
+        <ng-template #modalBody>
+            <form [formGroup]="paramsInvite" class="text-sm" (ngSubmit)="inviteMember()" >
+                <div class="mb-5">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" placeholder="Enter Email" class="form-input"
+                        formControlName="email" />
+                </div>
+
+                <div class="mt-8 flex items-center justify-end">
+                    <button type="button" class="btn btn-outline-danger"
+                        (click)="addContactModal.close()">Cancel</button>
+                    <button type="submit"
+                        class="btn bg-lime-800 hover:bg-lime-700 text-white ltr:ml-4 rtl:mr-4">Invite</button>
+                </div>
+            </form>
+        </ng-template>
+    </modal>
+
+    <modal #isDeleteMemeberModal class="no-footer">
+        <ng-template #modalHeader>
+            <div class="!font-medium">remove Member in workspace</div>
+        </ng-template>
+        <ng-template #modalBody>
+            <div class="text-center text-sm">
+                <div class="mx-auto w-fit rounded-full bg-danger p-4 text-white ring-4 ring-danger/30">
+                    <icon-trash-lines class="mx-auto h-7 w-7" />
+                </div>
+                <div class="mx-auto mt-5 sm:w-3/4">Are you sure you want to remove member?</div>
+
+                <div class="mt-8 flex items-center justify-center">
+                    <button type="button" class="btn btn-outline-danger" (click)="isDeleteMemeberModal.close()">Cancel</button>
+                    <button type="button" class="btn btn-primary ltr:ml-4 rtl:mr-4" (click)="deleteMember()">Delete</button>
+                </div>
+            </div>
+        </ng-template>
+    </modal>
+
+</div>

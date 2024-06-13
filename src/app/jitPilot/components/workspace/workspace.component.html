@@ -1,0 +1,164 @@
+<div>
+    <div >
+        
+        <div
+            class="absolute z-10 hidden h-full w-full rounded-md bg-black/60"
+            [ngClass]="{ '!block xl:!hidden': isShowWorkspaceMenu }"
+            (click)="isShowWorkspaceMenu = !isShowWorkspaceMenu"></div>
+
+
+        <modal #isAddWorkspaceModal class="no-footer">
+            <ng-template #modalHeader>
+                <div class="!font-medium">{{ paramms.workspaceId? 'Edit Workspace' : 'Add Workspace' }}</div>
+            </ng-template>
+            <ng-template #modalBody>
+                <form (ngSubmit)="saveWorkspace()" class="text-sm">
+                    <div class="grid gap-5">
+                        <div>
+                            <label for="name">Name</label>
+                            <input id="name" [(ngModel)]="paramms.name" name="name" type="text" class="form-input mt-1" placeholder="Enter Name" />
+                        </div>
+                        <div>
+                            <label for="description">description</label>
+                            <!-- <input 
+                            id="description" 
+                            [(ngModel)]="paramms.description" 
+                            name="description" 
+                            type="textarea" 
+                            class="form-textarea mt-1" 
+                            placeholder="Enter description" /> -->
+                            <textarea
+                                                            id="description" 
+                            [(ngModel)]="paramms.description" 
+                            name="description" 
+                            type="textarea" 
+                            class="form-textarea mt-1" 
+                            placeholder="Enter description"
+                            
+                            ></textarea>
+                        </div>
+                    </div>
+    
+                    <div class="mt-8 flex items-center justify-end">
+                        <button type="button" class="btn btn-outline-danger" (click)="isAddWorkspaceModal.close()">Cancel</button>
+                        <button type="submit" class="btn bg-lime-800 hover:bg-lime-700 text-white ltr:ml-4 rtl:mr-4">{{ paramms.workspaceId ? 'Update' : 'Add' }}</button>
+                    </div>
+                </form>
+            </ng-template>
+        </modal>
+
+        <modal #isDeleteWorkspaceModal class="no-footer">
+                <ng-template #modalHeader>
+                    <div class="!font-medium">Delete Workspace</div>
+                </ng-template>
+                <ng-template #modalBody>
+                    <div class="text-center text-sm">
+                        <div class="mx-auto w-fit rounded-full bg-danger p-4 text-white ring-4 ring-danger/30">
+                            <icon-trash-lines class="mx-auto h-7 w-7" />
+                        </div>
+                        <div class="mx-auto mt-5 sm:w-3/4">Are you sure you want to delete Workspace?</div>
+
+                        <div class="mt-8 flex items-center justify-center">
+                            <button type="button" class="btn btn-outline-danger" (click)="isDeleteWorkspaceModal.close()">Cancel</button>
+                            <button type="button" class="btn bg-lime-800 hover:bg-lime-700 text-white ltr:ml-4 rtl:mr-4" (click)="deleteWorkspace()">Delete</button>
+                        </div>
+                    </div>
+                </ng-template>
+            </modal>
+    
+
+
+
+
+        <div>
+            <div>
+               
+                <button class="btn bg-lime-800 hover:bg-lime-700 text-white flex " type="button" (click)="addEditWorkspace()">
+                    <icon-plus class="h-5 w-5 shrink-0 ltr:mr-3 rtl:ml-3" />
+                    Add Workspace
+                </button>
+            </div>
+            <div class="pb-5">
+                <button type="button" class="hover:text-primary xl:hidden" (click)="isShowWorkspaceMenu = !isShowWorkspaceMenu">
+                    <icon-menu />
+                </button>
+            </div>
+            <ng-container *ngIf="!filtredWorkspaces.length">
+                <div class="flex h-full min-h-[400px] items-center justify-center text-lg font-semibold sm:min-h-[300px]">No data available</div>
+            </ng-container>
+            <ng-container >
+                <div class="min-h-[400px] sm:min-h-[300px]">
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                        <ng-container *ngFor="let works of filtredWorkspaces">
+                            <div class="panel pb-1" >
+                                <div class="-m-5 mb-5 flex items-center justify-between  border-[#e0e6ed] p-5 dark:border-[#1b2e4b]">
+                                    <a href="javascript:;" class="flex font-semibold" (click)="viewWorkspace(works)">
+                                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-dark text-white ltr:mr-4 rtl:ml-4">
+                                            <span>{{ works.name.slice(0, 2).toUpperCase() }}</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base max-w-lg text-xl font-semibold leading-normal text-gray-900 dark:text-dark">{{ works.name  }}</h3>
+                                            <p class="mt-1 text-xs text-white-dark">JobInTech</p>
+                                        </div>
+                                    </a>
+                                    <div hlMenu class="dropdown">
+                                        <button type="button" hlMenuButton>
+                                            <icon-horizontal-dots class="h-5 w-5 text-black/70 hover:!text-primary dark:text-white/70" />
+                                        </button>
+                                        <ul *hlMenuItems @toggleAnimation class="ltr:right-0 rtl:left-0">
+                                            <li>
+                                                <a href="javascript:;" class="w-full text-primary" *hlMenuItem="let menuItem" (click)="addEditWorkspace(works)">
+                                                    <icon-pencil class="h-4 w-4 shrink-0 ltr:mr-3 rtl:ml-3" />
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="w-full text-red-500" *hlMenuItem="let menuItem" (click)="deleteWorkspaceConfirm(works)">
+                                                    <icon-trash-lines class="h-4.5 w-4.5 shrink-0 ltr:mr-3 rtl:ml-3" />
+                                                    Delete
+                                                </a>
+                                                
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="w-full" *hlMenuItem="let menuItem" (click)="viewWorkspace(works)">
+                                                    <icon-eye class="h-4.5 w-4.5 shrink-0 ltr:mr-3 rtl:ml-3" />
+
+                                                    View
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                
+                                    
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+
+            
+<!-- 
+            <modal #isDeleteWorkspaceModal class="no-footer">
+                <ng-template #modalHeader>
+                    <div class="!font-medium">Delete Notes</div>
+                </ng-template>
+                <ng-template #modalBody>
+                    <div class="text-center text-sm">
+                        <div class="mx-auto w-fit rounded-full bg-danger p-4 text-white ring-4 ring-danger/30">
+                            <icon-trash-lines class="mx-auto h-7 w-7" />
+                        </div>
+                        <div class="mx-auto mt-5 sm:w-3/4">Are you sure you want to delete Notes?</div>
+
+                        <div class="mt-8 flex items-center justify-center">
+                            <button type="button" class="btn btn-outline-danger" (click)="isDeleteWorkspaceModal.close()">Cancel</button>
+                            <button type="button" class="btn btn-primary ltr:ml-4 rtl:mr-4" (click)="deleteWorkspace()" >Delete</button>
+                        </div>
+                    </div>
+                </ng-template>
+            </modal>
+            -->
+            
+        </div>
+    </div>
+</div>

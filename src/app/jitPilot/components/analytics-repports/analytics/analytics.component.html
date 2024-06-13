@@ -1,0 +1,125 @@
+<div class="mb-5">
+    <ol class="flex flex-wrap items-center gap-y-4 font-semibold text-gray-500 dark:text-white-dark">
+        <li
+            class="flex items-center before:relative before:-top-0.5 before:mx-4 before:inline-block before:h-1 before:w-1 before:rounded-full before:bg-primary"
+        >
+            <a
+                [routerLink]="['/jitPilot/scrumboard', boardId]"
+                class="flex items-center justify-center rounded-md border border-gray-500/20 p-2.5 shadow hover:text-gray-500/70 dark:border-0 dark:bg-[#191e3a] dark:hover:text-white-dark/70"
+                
+            >
+                <icon-cpu-bolt class="ltr:mr-2 rtl:ml-2" />
+
+                {{currentBoard!.boardName}}
+            </a>
+        </li>
+        <li
+        class="flex items-center before:relative before:-top-0.5 before:mx-4 before:inline-block before:h-1 before:w-1 before:rounded-full before:bg-primary"
+    >
+        <a
+            [routerLink]="['/jitPilot/analytics', boardId]"
+            class="flex items-center justify-center rounded-md border border-gray-500/20 p-2.5 text-primary shadow dark:border-0 dark:bg-[#191e3a]"
+        >
+            <icon-menu-charts class="shrink-0 ltr:mr-2 rtl:ml-2" />
+
+            Analytics
+        </a>
+    </li>
+    </ol>
+</div>
+
+<div class="pt-5">
+    <div class="mb-6 grid gap-6 xl:grid-cols-3">
+        <div class="panel h-full xl:col-span-2">
+            <div class="mb-5 flex items-center justify-between dark:text-white-light">
+                <h5 class="text-lg font-semibold">Velocity/Sprint</h5>
+                <div class="dropdown ltr:ml-auto rtl:mr-auto">
+                    <div hlMenu>
+                        <a hlMenuButton href="javascript:;" class="align-middle">
+                            <icon-horizontal-dots class="text-black/70 hover:!text-primary dark:text-white/70" />
+                        </a>
+                        <ul *hlMenuItems @toggleAnimation class="ltr:right-0 rtl:left-0">
+                            <li>
+                                <a href="javascript:;" *hlMenuItem="let menuItem">Weekly</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" *hlMenuItem="let menuItem">Monthly</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" *hlMenuItem="let menuItem">Yearly</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <p class="text-lg dark:text-white-light/90">Top Velocity<span class="ml-2 text-primary">{{this.achievedVelocityList.sort()[this.achievedVelocityList.length-1]}}</span></p>
+            <div class="relative overflow-hidden">
+                <!-- [dropShadow]="velocityChart.dropShadow" -->
+                <apx-chart
+                    [series]="velocityChart.series"
+                    [chart]="velocityChart.chart"
+                    [dataLabels]="velocityChart.dataLabels"
+                    [stroke]="velocityChart.stroke"
+                    [colors]="velocityChart.colors"
+                    [markers]="velocityChart.markers"
+                    [labels]="velocityChart.labels"
+                    [xaxis]="velocityChart.xaxis"
+                    [yaxis]="velocityChart.yaxis"
+                    [grid]="velocityChart.grid"
+                    [legend]="velocityChart.legend"
+                    [tooltip]="velocityChart.tooltip"
+                    [fill]="velocityChart.fill"
+                    class="rounded-lg bg-white dark:bg-black"
+                >
+                    <!-- loader -->
+                    <div class="grid min-h-[325px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+        </div>
+
+        <div class="panel h-full">
+            <div class="mb-5 flex items-center justify-between dark:text-white-light">
+                <h5 class="text-lg font-semibold">Sprint</h5>
+                <div class="dropdown ltr:ml-auto rtl:mr-auto">
+                    <div hlMenu>
+                        <a hlMenuButton href="javascript:;" class="align-middle">
+                            <icon-menu-todo class="text-black/70 hover:!text-primary dark:text-white/70" />
+                        </a>
+                        <ul *hlMenuItems @toggleAnimation class="ltr:right-0 rtl:left-0">
+                            <li>
+                                <a href="javascript:;" *hlMenuItem="let menuItem">Weekly</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" *hlMenuItem="let menuItem">Monthly</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" *hlMenuItem="let menuItem">Yearly</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-hidden">
+                <apx-chart
+                    [series]="salesByCategory.series"
+                    [chart]="salesByCategory.chart"
+                    [dataLabels]="salesByCategory.dataLabels"
+                    [stroke]="salesByCategory.stroke"
+                    [colors]="salesByCategory.colors"
+                    [legend]="salesByCategory.legend"
+                    [plotOptions]="salesByCategory.plotOptions"
+                    [labels]="salesByCategory.labels"
+                    [states]="salesByCategory.states"
+                    class="rounded-lg bg-white dark:bg-black"
+                >
+                    <!-- loader -->
+                    <div class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+</div>
