@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { User } from '../../../models/modelsCv/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-read-user-component',
@@ -6,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./read-user-component.component.css']
 })
 export class ReadUserComponentComponent {
+    users: User[] = [];
+
+
+
+
 
 }

@@ -5,16 +5,16 @@ import { Experience } from './Experience';
 import { Langues } from './Langues';
 import { Realisation } from './Realisation';
 
-export  interface Cv {
-    id: string;
-    candidat: Candidate;
-    contenu: string;
-    dateDeCreation: Date;
-    dateDeMiseAJour: Date;
-    scolarite: Scolarite[];
-    competences: Competences[];
-    experiences: Experience[];
-    langues: Langues[];
-    realisations: Realisation[];
+export  class Cv {
+    id?: string;
+    candidat?: Candidate;
+    contenu?: string;
+    dateDeCreation?: Date;
+    dateDeMiseAJour?: Date;
+    scolarite?: Scolarite[];
+    competences?: Competences[];
+    experiences?: Experience[];
+    langues?: Langues[];
+    realisations?: Realisation[];
 
 }

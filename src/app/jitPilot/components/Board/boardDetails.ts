@@ -19,7 +19,7 @@ import { TaskService } from '../../services/task.service';
 import { Sprint } from '../../models/sprint';
 import { SprintService } from '../../services/sprint.service';
 import { log } from 'console';
-import { UserService } from '../../services/user.service';
+
 import { UserResponse } from '../../models/user-response';
 
 @Component({
@@ -41,7 +41,7 @@ export class BoardDetailsComponent implements OnInit {
         private ticketService: TicketService,
         private taskService:TaskService,
         private sprintService:SprintService,
-        private userService: UserService
+
 
     ) {}
     ngOnInit(): void {
@@ -52,9 +52,8 @@ export class BoardDetailsComponent implements OnInit {
         this.getSprints();
         this.workspaceId = JSON.parse(sessionStorage.getItem('workspaceItem')!).workspaceId;
         console.log(this.workspaceId);
-        this.getUsers();
 
-    }    
+    }
     boardId: number = 0;
     currentBoard!: Board;
     boardName!: string;
@@ -85,7 +84,7 @@ export class BoardDetailsComponent implements OnInit {
         achievedVelocity: null,
         targetVelocity: null
     };
-    
+
     params = {
         sectionId: null,
         sectionTitle: '',
@@ -108,7 +107,7 @@ export class BoardDetailsComponent implements OnInit {
         taskId: null,
         title:'',
         done:false
-        
+
     }
     editorOptions = {
         toolbar: [[{ header: [1, 2, false] }], ['bold', 'italic', 'underline', 'link'], [{ list: 'ordered' }, { list: 'bullet' }], ['clean']],
@@ -136,7 +135,7 @@ export class BoardDetailsComponent implements OnInit {
                 this.sectionList = this.currentBoard.sections;
                 console.log("res=>>", this.currentBoard);
                 console.log("Sections=>>", this.sectionList);
-                
+
                 this.boardName = this.currentBoard.boardName;
             },
             (error) => {
@@ -242,9 +241,9 @@ export class BoardDetailsComponent implements OnInit {
         //     this.sprint.startDate = new Date(this.sprint.startDate)
         //     console.log("typeof startdate field after =====>", typeof this.sprint.startDate);
         // }
-        
-        
-        // this.sprint.startDate = this.sprint.startDate?.getDate;        
+
+
+        // this.sprint.startDate = this.sprint.startDate?.getDate;
         const newSprint: any = {
             sprintId: null,
             sprintNumber: this.sprintParams.sprintNumber,
@@ -271,7 +270,7 @@ export class BoardDetailsComponent implements OnInit {
     deleteSectionConfirm(section: Section) {
         setTimeout(() => {
             this.currentSection = section;
-            console.log("helooooooo==>", this.currentSection) 
+            console.log("helooooooo==>", this.currentSection)
             this.isDeleteSelectionModal.open();
         });
     }
@@ -298,9 +297,9 @@ export class BoardDetailsComponent implements OnInit {
                 (error) => {
                     console.error('Error gettig Tasks of ticket:'+ticket.ticketId, error);
                 }
-            );  
+            );
             this.isViewTicketModal.open();
-            
+
         }, 10);
     }
     clearAllTicket() {
@@ -359,7 +358,7 @@ export class BoardDetailsComponent implements OnInit {
         }
 
         if (this.paramsTicket.ticketId) {
-            //update task            
+            //update task
             const ticketToUpdate: any = {
                 ticketId: this.paramsTicket.ticketId,
                 title: this.paramsTicket.title,
@@ -371,7 +370,7 @@ export class BoardDetailsComponent implements OnInit {
 
             };
             console.log(ticketToUpdate);
-            
+
             this.ticketService.updateTicket(this.paramsTicket.ticketId, ticketToUpdate).subscribe(
                 (response) => {
                     console.log('ticket updated successfully:', response);
@@ -382,7 +381,7 @@ export class BoardDetailsComponent implements OnInit {
                     ticket.descriptionContent = ticketToUpdate.descriptionContent;
                     ticket.priority = ticketToUpdate.priority;
                     ticket.status = ticketToUpdate.status;
-                    
+
 
                 },
                 (error) => {
@@ -421,7 +420,7 @@ export class BoardDetailsComponent implements OnInit {
             taskId: null,
             title:'',
             done:false
-    
+
         }
         if (task) {
             this.paramsTask = JSON.parse(JSON.stringify(task));
@@ -431,7 +430,7 @@ export class BoardDetailsComponent implements OnInit {
     }
     saveTask() {
         console.log(this.paramsTask.title);
-        
+
         if (!this.paramsTask.title) {
             this.showMessage('Title is required.', 'error');
             return;
@@ -467,7 +466,7 @@ export class BoardDetailsComponent implements OnInit {
                     this.TasksList.push(response);
                     const ticket:any = this.sectionList.find((section: any) => section.sectionId === this.currentSection.sectionId)
                     ?.tickets.find((ticket:any) => ticket.ticketId === this.paramsTicket.ticketId);
-                    
+
                     ticket.progress = this.calculateProgress(this.TasksList);
                 },
                 (error) => {
@@ -513,7 +512,7 @@ export class BoardDetailsComponent implements OnInit {
                 this.TasksList=this.TasksList.filter((task:Task) => task.taskId !== this.taskToDelete.taskId);
                 const ticket:any = this.sectionList.find((section: any) => section.sectionId === this.currentSection.sectionId)
                 ?.tickets.find((ticket:any) => ticket.ticketId === this.paramsTicket.ticketId);
-                
+
                 ticket.progress = this.calculateProgress(this.TasksList);
                 this.showMessage('Task has been deleted successfully.');
                 this.isDeleteTaskModal.close();
@@ -558,7 +557,7 @@ export class BoardDetailsComponent implements OnInit {
                     EditedTask.done = task.done;
                     const ticket:any = this.sectionList.find((section: any) => section.sectionId === this.currentSection.sectionId)
                     ?.tickets.find((ticket:any) => ticket.ticketId === this.paramsTicket.ticketId);
-                    
+
                     ticket.progress = this.calculateProgress(this.TasksList);
 
                 },
@@ -569,9 +568,9 @@ export class BoardDetailsComponent implements OnInit {
         }
     }
 
-      
+
     currentTicketToDrag!:any;
-    
+
     onDragStart(ticketId: number){
         this.currentTicketToDrag=ticketId;
     }
@@ -599,7 +598,7 @@ export class BoardDetailsComponent implements OnInit {
         this.paramsTicket.description = event.text;
         this.paramsTicket.descriptionContent = event.html;
         console.log(this.paramsTicket);
-        
+
     }
 
     changeSelectedSprint(sprint: any){
@@ -608,12 +607,7 @@ export class BoardDetailsComponent implements OnInit {
 
     usersList!:UserResponse[];
 
-    getUsers(): void {
-        this.userService.getUsers().subscribe((data: UserResponse[]) => {
-            this.usersList = data;
-            console.log(data);
-        });
-    }
+
 
     isDropdownOpen: boolean = false;
 
@@ -632,7 +626,7 @@ export class BoardDetailsComponent implements OnInit {
         this.ticketService.addUserInTicket(ticketId, userId).subscribe(
             (response) => {
                this.filtredUsers.push(user);
-               this.sectionList.find(s => s.sectionId === this.params.sectionId)?.tickets.find(t => t.ticketId === this.paramsTicket.ticketId)?.users.push(user);                
+               this.sectionList.find(s => s.sectionId === this.params.sectionId)?.tickets.find(t => t.ticketId === this.paramsTicket.ticketId)?.users.push(user);
             },
             (error) => {
                 console.error('Error selecting user:', error);
@@ -640,17 +634,17 @@ export class BoardDetailsComponent implements OnInit {
         );
         this.closeDropdown();
 
-       
+
     }
 
     userExistsInMembers(userId: any): boolean {
         return this.users.some(member => member.userId.toString() === userId.toString());
 
     }
-    
 
 
-   
+
+
     removeUserInTicket(ticketId: any, userId: any, user: any) {
         console.log(userId);
         this.ticketService.removeUserFromTicket(ticketId, userId).subscribe(

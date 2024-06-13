@@ -1,5 +1,5 @@
-export interface Realisation {
-    titre: string;
-    description: string;
-    date: Date;
+export class Realisation {
+    titre?: string;
+    description?: string;
+    date?: Date;
 }

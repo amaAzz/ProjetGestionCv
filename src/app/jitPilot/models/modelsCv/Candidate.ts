@@ -2,8 +2,8 @@ import { User } from './user';
 import { Cv } from './CurriculumVitae';
 
 
-export  interface Candidate {
-    parcoursProfessionnel: string;
-    user: User;
-    cv: Cv;
+export  class Candidate {
+    parcoursProfessionnel?: string;
+    user?: User;
+    cv?: Cv;
 }

@@ -1,5 +1,5 @@
-export interface Langues {
-    id: string;
-    nom: string;
-    niveau: number;
+export class Langues {
+    id?: string;
+    nom?: string;
+    niveau?: number;
 }
