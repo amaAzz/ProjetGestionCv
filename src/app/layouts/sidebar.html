@@ -1,0 +1,119 @@
+﻿<div [ngClass]="{ 'dark text-white-dark': store.semidark }">
+    <nav class="sidebar fixed bottom-0 top-0 z-50 h-full min-h-screen w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300">
+        <div class="h-full bg-white dark:bg-[#0e1726]">
+            <div class="flex items-center justify-between px-4 py-3">
+                <a routerLink="/" class="main-logo flex shrink-0 items-center">
+                    <img class="ml-[5px] w-8 flex-none" src="/assets/images/logo/favicon.svg" alt="" />
+                    <span class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">JITECHPILOT</span>
+                </a>
+                <a
+                    href="javascript:;"
+                    class="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 hover:text-primary rtl:rotate-180 dark:text-white-light dark:hover:bg-dark-light/10"
+                    (click)="storeData.dispatch({ type: 'toggleSidebar'})"
+                >
+                    <icon-carets-down class="m-auto rotate-90" />
+                </a>
+            </div>
+            <ng-scrollbar class="relative !h-[calc(100vh-80px)]" appearance="compact">
+                <div *ngIf="isJitPilotWorkspacesRoute(); else notWorkspaceList">
+                    <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
+                        <li class="nav-item" >
+                            <a routerLink="/jitPilot/workspaces" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                <div class="flex items-center">
+                                    <icon-box class="shrink-0 group-hover:!text-primary" />
+    
+                                    <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+                                        >{{ 'Workspace List' | translate }}</span
+                                    >
+                                </div>
+                            </a>
+                        </li>
+                    </ul>                  
+                    </div>
+                  <ng-template #notWorkspaceList>
+                    <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
+                        <li class="nav-item">
+                            <a [routerLink]="['/jitPilot/board', workspace.workspaceId, 'boards']" class="flex" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                <div class="flex items-center">
+                                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-dark text-white ltr:mr-4 rtl:ml-4">
+                                        <span *ngIf="workspace.name">{{ workspace.name.slice(0, 2).toUpperCase() }}</span>
+                                    </div>
+                                    <div>
+                                        <!-- <h3 class="text-base max-w-lg text-xl font-semibold leading-normal text-gray-900 dark:text-dark">{{workspace.name}}</h3> -->
+                                        <h3 class="line-clamp-1 overflow-hidden text-base text-base font-semibold leading-normal text-gray-900 dark:text-dark">{{workspaceName}}</h3>
+    
+                                        <p class="mt-1 text-xs text-white-dark">JobInTech</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a [routerLink]="['/jitPilot/board', workspace.workspaceId, 'boards']" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                <div class="flex items-center">
+                                    <icon-chart-square class="shrink-0 group-hover:!text-primary" />
+    
+                                    <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+                                        >{{ 'Boards' | translate }}</span
+                                    >
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a [routerLink]="['/jitPilot/members', workspace.workspaceId, 'members']" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                <div class="flex items-center">
+                                    <icon-users-group class="shrink-0 group-hover:!text-primary" />
+    
+                                    <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+                                        >{{ 'Members' | translate }}</span
+                                    >
+                                </div>
+                            </a>
+                        </li>
+                        <h2 class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
+                            <icon-minus class="hidden h-5 w-4 flex-none" />
+                            <span>{{ ('Features' | translate) || '&nbsp;' }}</span>
+                        </h2>
+                        <li class="nav-item">
+                            <a routerLink="/jitPilot/todolist" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                <div class="flex items-center">
+                                    <icon-list-check class="shrink-0 group-hover:!text-primary" />
+    
+                                    <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+                                        >{{ 'todo_list' | translate }}</span
+                                    >
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a routerLink="/jitPilot/calendar" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                <div class="flex items-center">
+                                    <icon-calendar class="shrink-0 group-hover:!text-primary" />
+    
+                                    <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+                                        >{{ 'calendar' | translate }}</span
+                                    >
+                                </div>
+                            </a>
+                        </li>
+                        <h2 class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
+                            <icon-minus class="hidden h-5 w-4 flex-none" />
+                            <span>{{ ('Your Boards' | translate) || '&nbsp;' }}</span>
+                        </h2>
+                        <ng-container *ngFor="let userBoard of userBoardList" key="userBoard.boardId">
+                            <li class="nav-item">
+                                <a  [routerLink]="['/jitPilot/scrumboard/', userBoard.boardId]" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                    <div class="flex items-center">
+                                        <icon-menu-scrumboard class="shrink-0 group-hover:!text-primary" />
+        
+                                        <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+                                            >{{ userBoard.boardName | translate }}</span
+                                        >
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-container>
+                    </ul>                  </ng-template>
+            </ng-scrollbar>
+        </div>
+    </nav>
+</div>
